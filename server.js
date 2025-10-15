@@ -1,8 +1,8 @@
 // server.js
-import WebSocket from 'ws';
+import { WebSocketServer } from 'ws';
 
 const PORT = process.env.PORT || 8080;
-const wss = new WebSocket.Server({ port: PORT });
+const wss = new WebSocketServer({ port: PORT });
 
 const PHP_API_URL = 'https://kyrt.my.id/save_message.php';
 
@@ -12,7 +12,7 @@ wss.on('connection', ws => {
     console.log('Client terhubung');
 
     ws.on('message', async (msg) => {
-        console.log('Pesan dari client:', msg);
+        console.log('Pesan dari client:', msg.toString());
 
         // Pisahkan username & message (format: "username: pesan")
         const splitIndex = msg.indexOf(':');
@@ -32,8 +32,8 @@ wss.on('connection', ws => {
 
         // Broadcast ke semua client
         wss.clients.forEach(client => {
-            if(client.readyState === WebSocket.OPEN){
-                client.send(msg);
+            if (client.readyState === ws.OPEN) {
+                client.send(msg.toString());
             }
         });
     });
