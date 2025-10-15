@@ -1,9 +1,12 @@
-const WebSocket = require('ws');
-const fetch = require('node-fetch'); // npm install node-fetch
+// server.js
+import WebSocket from 'ws';
+
 const PORT = process.env.PORT || 8080;
 const wss = new WebSocket.Server({ port: PORT });
 
 const PHP_API_URL = 'https://kyrt.my.id/save_message.php';
+
+console.log(`Server WebSocket berjalan di port ${PORT}`);
 
 wss.on('connection', ws => {
     console.log('Client terhubung');
@@ -37,5 +40,3 @@ wss.on('connection', ws => {
 
     ws.on('close', () => console.log('Client terputus'));
 });
-
-console.log(`Server WebSocket berjalan di port ${PORT}`);
